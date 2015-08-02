@@ -1,0 +1,8 @@
+{
+  "name": "plane-rotation-gl",
+  "version": "0.0.1",
+  "dependencies": {
+    "dat-gui": "~0.5.1",
+    "gl-matrix": "~2.3.1"
+  }
+}
