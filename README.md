@@ -15,6 +15,6 @@ Install bower and use it to install dependencies
     sudo npm install bower -g
     bower install
 
-Run
+## Run
 
   python -m SimpleHTTPServer
