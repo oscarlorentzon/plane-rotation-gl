@@ -2,8 +2,14 @@
   "name": "plane-rotation-gl",
   "version": "0.0.1",
   "description": "Rotation of a plane with WebGL",
+  "browserify": {
+    "transform": [
+      "glify"
+    ]
+  },
   "dependencies": {
-    "gl-matrix": "~2.3.1"
+    "gl-matrix": "~2.3.1",
+    "glify": "~0.5.0"
   },
   "devDependencies": {}
 }
