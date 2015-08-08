@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+
+        <link type="text/css" href="styles/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+        <link type="text/css" href="styles/webgl-tutorials.css" rel="stylesheet" />
+
+        <style>
+          #ui { width: 200px; }
+
+          * { margin:0; padding:0}
+
+          html, body { width:100%; height:100%; overflow:hidden; }
+
+          canvas { width:100%; height:100%; }
+        </style>
+
+        <script src="javascript/lib/jquery-1.7.1.min.js"></script>
+        <script src="javascript/lib/jquery-ui-1.8.16.custom.min.js"></script>
+        <script src="javascript/lib/jquery.gman.ui.js"></script>
+        <script src="javascript/lib/webgl-utils.js"></script>
+        <script src="node_modules/gl-matrix/dist/gl-matrix-min.js"></script>
+
+        <script type="text/javascript">
+          $(function() {
+              var canvas = document.getElementById('canvas');
+
+              // resize the canvas to fill browser window dynamically
+              window.addEventListener('resize', resizeCanvas, false);
+              window.addEventListener('load', resizeCanvas, false);
+
+              function resizeCanvas() {
+                  canvas.width = window.innerWidth;
+                  canvas.height = window.innerHeight;
+              }
+
+              resizeCanvas();
+          });
+        </script>
+
+        <!-- vertex shader -->
+        <script id="2d-vertex-shader" type="x-shader/x-vertex">
+            attribute vec4 a_position;
+            attribute vec4 a_color;
+
+            uniform mat4 u_modelViewMatrix;
+            uniform mat4 u_projectionMatrix;
+
+            varying vec4 v_color;
+
+            void main() {
+                gl_Position = u_projectionMatrix * u_modelViewMatrix * a_position;
+
+                v_color = a_color;
+            }
+        </script>
+
+        <!-- fragment shader -->
+        <script id="2d-fragment-shader" type="x-shader/x-fragment">
+            precision mediump float;
+
+            varying vec4 v_color;
+
+            void main() {
+                gl_FragColor = v_color;
+            }
+        </script>
+
+        <script src="javascript/data/tiledata.js"></script>
+        <script src="javascript/lookat.js"></script>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+
+        <div id="uiContainer">
+            <div id="ui">
+                <div id="fov"></div>
+
+                <div id="cameraPositionX"></div>
+                <div id="cameraPositionY"></div>
+                <div id="cameraPositionZ"></div>
+
+                <div id="targetX"></div>
+                <div id="targetY"></div>
+                <div id="targetZ"></div>
+            </div>
+        </div>
+    </body>
+</html>
