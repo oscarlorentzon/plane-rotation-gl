@@ -10,11 +10,10 @@ Install node, create symbolic link and install npm
     sudo ln -s /usr/bin/nodejs /usr/bin/node
     sudo apt-get install npm
 
-Install bower and use it to install dependencies
+Install dependencies
 
-    sudo npm install bower -g
-    bower install
+    sudo npm install
 
 ## Run
 
-  python -m SimpleHTTPServer
+    python -m SimpleHTTPServer

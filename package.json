@@ -1,8 +1,9 @@
 {
   "name": "plane-rotation-gl",
   "version": "0.0.1",
+  "description": "Rotation of a plane with WebGL",
   "dependencies": {
-    "dat-gui": "~0.5.1",
     "gl-matrix": "~2.3.1"
-  }
+  },
+  "devDependencies": {}
 }
