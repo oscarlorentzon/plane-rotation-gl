@@ -42,14 +42,14 @@ var main = function () {
     setColors(gl);
 
     var fov = Math.PI / 3;
-    var translation = [0, 0, -1000];
+    var translation = [0, 0, 1000];
     var rotation = [0, 0, 0];
 
     // Setup a ui.
     $("#fov").gmanSlider({ value: radToDeg(fov), slide: updateFov, min: 1, max: 179 });
     $("#x").gmanSlider({ slide: updateTranslation(0), min: -canvas.width, max: canvas.width });
     $("#y").gmanSlider({ slide: updateTranslation(1), min: -canvas.height, max: canvas.height });
-    $("#z").gmanSlider({ value: translation[2], slide: updateTranslation(2), min: -10000, max: -2 });
+    $("#z").gmanSlider({ value: translation[2], slide: updateTranslation(2), min: 2, max: 10000 });
     $("#pitch").gmanSlider({ slide: updateRotation(0), max: 90 });
     $("#bearing").gmanSlider({ slide: updateRotation(2), max: 360 });
 
@@ -88,9 +88,14 @@ var main = function () {
         var aspect = canvas.clientWidth / canvas.clientHeight;
 
         var mv = new Float32Array(16);
-        mat4.fromTranslation(mv, translation);
-        mat4.rotateX(mv, mv, -rotation[0]);
-        mat4.rotateZ(mv, mv, -rotation[2]);
+        mat4.fromTranslation(mv, [-translation[0], translation[1], translation[2]]);
+        mat4.rotateX(mv, mv, rotation[0]);
+        mat4.rotateZ(mv, mv, rotation[2]);
+
+        var s = new Float32Array(16);
+        mat4.fromScaling(s, [-1, 1, -1]);
+        mat4.mul(mv, s, mv);
+
         gl.uniformMatrix4fv(modelViewMatrixLocation, false, mv);
 
         var p = new Float32Array(16);
