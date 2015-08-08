@@ -1,5 +1,7 @@
-TileData = {
-    positions: [
+'use strict'
+
+module.exports = {
+    'positions': [
         // Row 1
         -900, -900, 0,
         -300, -900, 0,
@@ -66,7 +68,7 @@ TileData = {
         900, 300, 0,
         900, 900, 0],
 
-    colors: [
+    'colors': [
         // Row 1
         10, 10, 10,
         10, 10, 10,
@@ -132,4 +134,4 @@ TileData = {
         250, 250, 250,
         250, 250, 250,
         250, 250, 250]
-}
+};

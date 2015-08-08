@@ -1,5 +1,7 @@
 "use strict"
 
+var tileData = require('./data/tiledata.js');
+
 $(function () {
     main();
 });
@@ -117,7 +119,7 @@ var main = function () {
 
         gl.bufferData(
             gl.ARRAY_BUFFER,
-            new Uint8Array(TileData.colors),
+            new Uint8Array(tileData.colors),
             gl.STATIC_DRAW);
     }
 
@@ -125,7 +127,7 @@ var main = function () {
     function setTiles(gl) {
         gl.bufferData(
             gl.ARRAY_BUFFER,
-            new Float32Array(TileData.positions),
+            new Float32Array(tileData.positions),
             gl.STATIC_DRAW);
     }
 
