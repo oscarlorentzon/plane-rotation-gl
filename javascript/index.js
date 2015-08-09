@@ -3,6 +3,7 @@ var canvas = document.body.appendChild(document.createElement('canvas')),
     context  = require('./context.js')(canvas, shaders.shader),
     tileData = require('./data/tiledata.js'),
     mat4     = require('gl-matrix').mat4,
+    dat      = require('dat-gui'),
     fit      = require('canvas-fit');
 
 var gl = context.gl;
@@ -30,27 +31,45 @@ gl.enableVertexAttribArray(colorLocation);
 gl.vertexAttribPointer(colorLocation, 3, gl.UNSIGNED_BYTE, true, 0, 0);
 gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(tileData.colors), gl.STATIC_DRAW);
 
-var fov = Math.PI / 3;
-var translation = [0, 0, -1000];
-var rotation = [0, 0, 0];
+var controls = {
+    fov: 60,
+    x: 0,
+    y: 0,
+    z: -1000,
+    pitch: 0,
+    bearing: 0,
+    translation: [0, 0, -1000],
+    rotation: [0, 0, 0]
+}
 
-function updateFov(event, ui) {
-    fov = degToRad(ui.value);
+var gui = new dat.GUI();
+gui.add(controls, 'fov', 1, 179)
+    .onChange(updateFov);
+gui.add(controls, 'x', -1000, 1000)
+    .onChange(function(value) { updateTranslation(0, value); });
+gui.add(controls, 'y', -1000, 1000)
+    .onChange(function(value) { updateTranslation(1, value); });
+gui.add(controls, 'z', -10000, -2)
+    .onChange(function(value) { updateTranslation(2, value); });
+gui.add(controls, 'pitch', 0, 90)
+    .onChange(function(value) { updateRotation(0, value); });
+gui.add(controls, 'bearing', 0, 360)
+    .onChange(function(value) { updateRotation(2, value); });
+gui.open();
+
+function updateFov(value) {
+    controls.fov = value;
     drawScene();
 };
 
-function updateTranslation(index) {
-    return function (event, ui) {
-        translation[index] = ui.value;
-        drawScene();
-    }
+function updateTranslation(index, value) {
+    controls.translation[index] = value;
+    drawScene();
 };
 
-function updateRotation(index) {
-    return function (event, ui) {
-        rotation[index] = degToRad(ui.value);
-        drawScene();
-    }
+function updateRotation(index, value) {
+    controls.rotation[index] = degToRad(value);
+    drawScene();
 };
 
 function radToDeg(r) {
@@ -73,10 +92,10 @@ function drawScene() {
     var aspect = canvas.clientWidth / canvas.clientHeight;
 
     var mv = new Float32Array(16);
-    mat4.fromTranslation(mv, [0, 0, translation[2]]);
-    mat4.rotateX(mv, mv, -rotation[0]);
-    mat4.rotateZ(mv, mv, rotation[2]);
-    mat4.translate(mv, mv, [-translation[0], translation[1], 0]);
+    mat4.fromTranslation(mv, [0, 0, controls.translation[2]]);
+    mat4.rotateX(mv, mv, -controls.rotation[0]);
+    mat4.rotateZ(mv, mv, controls.rotation[2]);
+    mat4.translate(mv, mv, [-controls.translation[0], controls.translation[1], 0]);
 
     var s = new Float32Array(16);
     mat4.fromScaling(s, [-1, 1, 1]);
@@ -85,7 +104,7 @@ function drawScene() {
     gl.uniformMatrix4fv(modelViewMatrixLocation, false, mv);
 
     var p = new Float32Array(16);
-    mat4.perspective(p, fov, aspect, 1, 11000);
+    mat4.perspective(p, degToRad(controls.fov), aspect, 1, 11000);
     gl.uniformMatrix4fv(projectionMatrixLocation, false, p);
 
     // Draw the rectangle.
