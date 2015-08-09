@@ -14,6 +14,11 @@ Install dependencies
 
     sudo npm install
 
+Build
+
+    npm run build
+
 ## Run
 
-    python -m SimpleHTTPServer
+  1. Start an http server with `python -m SimpleHTTPServer`
+  2. Browse to `http://localhost:8000/layout/index.html`
