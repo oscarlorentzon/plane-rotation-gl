@@ -28,7 +28,6 @@ gui.add(controls, 'pitch', 0, 90).onChange(drawScene);
 gui.add(controls, 'bearing', 0, 360).onChange(drawScene);
 gui.open();
 
-// Draw a the scene.
 function drawScene() {
     var fov = spatial.degToRad(controls.fov),
         pitch = spatial.degToRad(controls.pitch),
@@ -38,7 +37,6 @@ function drawScene() {
         width = gl.drawingBufferWidth,
         height = gl.drawingBufferHeight;
 
-    // Clear the canvas.
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.viewport(0, 0, width, height)
 
@@ -58,7 +56,6 @@ function drawScene() {
     mat4.perspective(p, fov, aspect, 1, 11000);
     gl.uniformMatrix4fv(projectionMatrixLocation, false, p);
 
-    // Draw the tiles.
     gl.drawArrays(gl.TRIANGLES, 0, 9 * 6);
 };
 

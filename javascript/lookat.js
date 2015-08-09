@@ -31,7 +31,6 @@ gui.add(controls, 'targetY', -1000, 1000).onChange(drawScene);
 gui.add(controls, 'targetZ', -1000, 1000).onChange(drawScene);
 gui.open();
 
-// Draw a the scene.
 function drawScene() {
     var fov = spatial.degToRad(controls.fov),
         position = [controls.cameraX, controls.cameraY, controls.cameraZ],
@@ -41,7 +40,6 @@ function drawScene() {
         width = gl.drawingBufferWidth,
         height = gl.drawingBufferHeight;
 
-    // Clear the canvas.
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.viewport(0, 0, width, height)
 
@@ -64,7 +62,6 @@ function drawScene() {
     mat4.perspective(p, fov, aspect, 1, 11000);
     gl.uniformMatrix4fv(projectionMatrixLocation, false, p);
 
-    // Draw the tiles.
     gl.drawArrays(gl.TRIANGLES, 0, 9 * 6);
 };
 
