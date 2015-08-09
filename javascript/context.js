@@ -33,5 +33,5 @@ function context(canvas, shaders) {
     gl.linkProgram(program);
     gl.useProgram(program);
 
-    return gl;
+    return { 'gl': gl, 'program': program }
 };
