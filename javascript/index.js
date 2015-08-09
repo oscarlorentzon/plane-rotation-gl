@@ -1,35 +1,14 @@
 var canvas = document.body.appendChild(document.createElement('canvas')),
     shaders  = require('./shaders.js'),
     context  = require('./context.js')(canvas, shaders.shader),
-    tileData = require('./data/tiledata.js'),
+    buffer   = require('./buffer.js')(context),
     mat4     = require('gl-matrix').mat4,
     dat      = require('dat-gui'),
     fit      = require('canvas-fit');
 
-var gl = context.gl;
-var program = context.program;
-
-// look up where the vertex data needs to go.
-var positionLocation = gl.getAttribLocation(program, "a_position");
-var colorLocation = gl.getAttribLocation(program, "a_color");
-
-// lookup uniforms
-var modelViewMatrixLocation = gl.getUniformLocation(program, "u_modelViewMatrix");
-var projectionMatrixLocation = gl.getUniformLocation(program, "u_projectionMatrix");
-
-// Create a buffer for vertices.
-var buffer = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-gl.enableVertexAttribArray(positionLocation);
-gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tileData.positions), gl.STATIC_DRAW);
-
-// Create a buffer for colors.
-var buffer = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-gl.enableVertexAttribArray(colorLocation);
-gl.vertexAttribPointer(colorLocation, 3, gl.UNSIGNED_BYTE, true, 0, 0);
-gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(tileData.colors), gl.STATIC_DRAW);
+var gl = context.gl,
+    modelViewMatrixLocation = buffer.modelViewMatrixLocation,
+    projectionMatrixLocation = buffer.projectionMatrixLocation;
 
 var controls = {
     fov: 60,
@@ -70,10 +49,6 @@ function updateTranslation(index, value) {
 function updateRotation(index, value) {
     controls.rotation[index] = degToRad(value);
     drawScene();
-};
-
-function radToDeg(r) {
-    return r * 180 / Math.PI;
 };
 
 function degToRad(d) {
