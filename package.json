@@ -21,8 +21,8 @@
     "browserify": "latest"
   },
   "scripts": {
-    "build:index": "browserify -d javascript/index.js > bin/index.min.js",
-    "build:index2": "browserify -d javascript/index2.js > bin/index2.min.js",
-    "build": "npm run build:index & npm run build:index2"
+    "build:pitch": "browserify -d javascript/pitch.js > bin/pitch.min.js",
+    "build:lookat": "browserify -d javascript/lookat.js > bin/lookat.min.js",
+    "build": "npm run build:pitch & npm run build:lookat"
   }
 }

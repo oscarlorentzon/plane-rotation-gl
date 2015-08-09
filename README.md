@@ -21,4 +21,4 @@ Build
 ## Run
 
   1. Start an http server with `python -m SimpleHTTPServer`
-  2. Browse to `http://localhost:8000/layout/index.html`
+  2. Browse to `http://localhost:8000/layout/pitch.html` and `http://localhost:8000/layout/lookat.html`
