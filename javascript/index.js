@@ -4,7 +4,8 @@ var canvas = document.body.appendChild(document.createElement('canvas')),
     buffer   = require('./buffer.js')(context),
     mat4     = require('gl-matrix').mat4,
     dat      = require('dat-gui'),
-    fit      = require('canvas-fit');
+    fit      = require('canvas-fit'),
+    spatial  = require('./spatial.js');
 
 var gl = context.gl,
     modelViewMatrixLocation = buffer.modelViewMatrixLocation,
@@ -30,19 +31,22 @@ gui.open();
 
 // Draw a the scene.
 function drawScene() {
-    var width = gl.drawingBufferWidth
-    var height = gl.drawingBufferHeight
+    var fov = spatial.degToRad(controls.fov),
+        pitch = spatial.degToRad(controls.pitch),
+        bearing = spatial.degToRad(controls.bearing),
+        aspect = canvas.clientWidth / canvas.clientHeight,
+
+        width = gl.drawingBufferWidth,
+        height = gl.drawingBufferHeight;
 
     // Clear the canvas.
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.viewport(0, 0, width, height)
 
-    var aspect = canvas.clientWidth / canvas.clientHeight;
-
     var mv = new Float32Array(16);
     mat4.fromTranslation(mv, [0, 0, controls.z]);
-    mat4.rotateX(mv, mv, -degToRad(controls.pitch));
-    mat4.rotateZ(mv, mv, degToRad(controls.bearing));
+    mat4.rotateX(mv, mv, -pitch);
+    mat4.rotateZ(mv, mv, bearing);
     mat4.translate(mv, mv, [-controls.x, controls.y, 0]);
 
     var s = new Float32Array(16);
@@ -52,15 +56,11 @@ function drawScene() {
     gl.uniformMatrix4fv(modelViewMatrixLocation, false, mv);
 
     var p = new Float32Array(16);
-    mat4.perspective(p, degToRad(controls.fov), aspect, 1, 11000);
+    mat4.perspective(p, fov, aspect, 1, 11000);
     gl.uniformMatrix4fv(projectionMatrixLocation, false, p);
 
-    // Draw the rectangle.
+    // Draw the tiles.
     gl.drawArrays(gl.TRIANGLES, 0, 9 * 6);
-};
-
-function degToRad(d) {
-    return d * Math.PI / 180;
 };
 
 window.addEventListener('resize', onResize, false)
