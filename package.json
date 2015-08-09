@@ -2,6 +2,10 @@
   "name": "plane-rotation-gl",
   "version": "0.0.1",
   "description": "Rotation of a plane with WebGL",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oscarlorentzon/plane-rotation-gl.git"
+  },
   "browserify": {
     "transform": [
       "glify"
