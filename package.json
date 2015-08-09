@@ -21,8 +21,8 @@
     "browserify": "latest"
   },
   "scripts": {
-    "build:pitch": "browserify -d javascript/pitch.js > bin/pitch.min.js",
-    "build:lookat": "browserify -d javascript/lookat.js > bin/lookat.min.js",
+    "build:pitch": "browserify -d javascript/pitch.js > dist/pitch.dev.js",
+    "build:lookat": "browserify -d javascript/lookat.js > dist/lookat.dev.js",
     "build": "npm run build:pitch & npm run build:lookat"
   }
 }
