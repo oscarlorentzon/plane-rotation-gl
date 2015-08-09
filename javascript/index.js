@@ -16,44 +16,17 @@ var controls = {
     y: 0,
     z: -1000,
     pitch: 0,
-    bearing: 0,
-    translation: [0, 0, -1000],
-    rotation: [0, 0, 0]
+    bearing: 0
 }
 
 var gui = new dat.GUI();
-gui.add(controls, 'fov', 1, 179)
-    .onChange(updateFov);
-gui.add(controls, 'x', -1000, 1000)
-    .onChange(function(value) { updateTranslation(0, value); });
-gui.add(controls, 'y', -1000, 1000)
-    .onChange(function(value) { updateTranslation(1, value); });
-gui.add(controls, 'z', -10000, -2)
-    .onChange(function(value) { updateTranslation(2, value); });
-gui.add(controls, 'pitch', 0, 90)
-    .onChange(function(value) { updateRotation(0, value); });
-gui.add(controls, 'bearing', 0, 360)
-    .onChange(function(value) { updateRotation(2, value); });
+gui.add(controls, 'fov', 1, 179).onChange(drawScene);
+gui.add(controls, 'x', -1000, 1000).onChange(drawScene);
+gui.add(controls, 'y', -1000, 1000).onChange(drawScene);
+gui.add(controls, 'z', -10000, -2).onChange(drawScene);
+gui.add(controls, 'pitch', 0, 90).onChange(drawScene);
+gui.add(controls, 'bearing', 0, 360).onChange(drawScene);
 gui.open();
-
-function updateFov(value) {
-    controls.fov = value;
-    drawScene();
-};
-
-function updateTranslation(index, value) {
-    controls.translation[index] = value;
-    drawScene();
-};
-
-function updateRotation(index, value) {
-    controls.rotation[index] = degToRad(value);
-    drawScene();
-};
-
-function degToRad(d) {
-    return d * Math.PI / 180;
-};
 
 // Draw a the scene.
 function drawScene() {
@@ -67,10 +40,10 @@ function drawScene() {
     var aspect = canvas.clientWidth / canvas.clientHeight;
 
     var mv = new Float32Array(16);
-    mat4.fromTranslation(mv, [0, 0, controls.translation[2]]);
-    mat4.rotateX(mv, mv, -controls.rotation[0]);
-    mat4.rotateZ(mv, mv, controls.rotation[2]);
-    mat4.translate(mv, mv, [-controls.translation[0], controls.translation[1], 0]);
+    mat4.fromTranslation(mv, [0, 0, controls.z]);
+    mat4.rotateX(mv, mv, -degToRad(controls.pitch));
+    mat4.rotateZ(mv, mv, degToRad(controls.bearing));
+    mat4.translate(mv, mv, [-controls.x, controls.y, 0]);
 
     var s = new Float32Array(16);
     mat4.fromScaling(s, [-1, 1, 1]);
@@ -84,6 +57,10 @@ function drawScene() {
 
     // Draw the rectangle.
     gl.drawArrays(gl.TRIANGLES, 0, 9 * 6);
+};
+
+function degToRad(d) {
+    return d * Math.PI / 180;
 };
 
 window.addEventListener('resize', onResize, false)
