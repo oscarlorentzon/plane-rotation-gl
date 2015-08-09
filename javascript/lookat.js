@@ -5,7 +5,6 @@ var canvas = document.body.appendChild(document.createElement('canvas')),
     mat4     = require('gl-matrix').mat4,
     vec3     = require('gl-matrix').vec3,
     dat      = require('dat-gui'),
-    fit      = require('canvas-fit'),
     spatial  = require('./spatial.js');
 
 var gl = context.gl,
@@ -69,11 +68,4 @@ function drawScene() {
     gl.drawArrays(gl.TRIANGLES, 0, 9 * 6);
 };
 
-window.addEventListener('resize', onResize, false)
-
-function onResize() {
-    fit(canvas);
-    drawScene();
-};
-
-onResize();
+require('./resize.js')(canvas, drawScene);
