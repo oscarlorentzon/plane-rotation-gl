@@ -24,6 +24,7 @@
   "scripts": {
     "build:pitch": "browserify -d javascript/pitch.js > dist/pitch.dev.js",
     "build:lookat": "browserify -d javascript/lookat.js > dist/lookat.dev.js",
-    "build": "mkdir -p dist & npm run build:pitch & npm run build:lookat"
+    "build": "mkdir -p dist & npm run build:pitch & npm run build:lookat",
+    "clean": "rm -r dist"
   }
 }
