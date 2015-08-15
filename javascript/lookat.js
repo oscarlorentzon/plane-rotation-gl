@@ -25,7 +25,7 @@ var gui = new dat.GUI();
 gui.add(controls, 'fov', 1, 179).onChange(drawScene);
 gui.add(controls, 'cameraX', -1000, 1000).onChange(drawScene);
 gui.add(controls, 'cameraY', -1000, 1000).onChange(drawScene);
-gui.add(controls, 'cameraZ', -3000, 3000).onChange(drawScene);
+gui.add(controls, 'cameraZ', -1000, 3000).onChange(drawScene);
 gui.add(controls, 'targetX', -1000, 1000).onChange(drawScene);
 gui.add(controls, 'targetY', -1000, 1000).onChange(drawScene);
 gui.add(controls, 'targetZ', -1000, 1000).onChange(drawScene);
