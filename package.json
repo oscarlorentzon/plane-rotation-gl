@@ -23,8 +23,8 @@
   },
   "scripts": {
     "build:pitch": "browserify -d javascript/pitch.js > build/pitch.dev.js",
-    "build:lookat": "browserify -d javascript/lookat.js > build/lookat.dev.js",
-    "build": "mkdir -p build & npm run build:pitch & npm run build:lookat",
+    "build:target": "browserify -d javascript/target.js > build/target.dev.js",
+    "build": "mkdir -p build & npm run build:pitch & npm run build:target",
     "clean": "rm -r build"
   }
 }
