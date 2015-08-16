@@ -14,7 +14,7 @@ var controls = {
     fov: 60,
     x: 0,
     y: 0,
-    z: -1000,
+    z: 0, // Dat gui workaround part 1: Does not handle initial negative values
     pitch: 0,
     bearing: 0
 }
@@ -23,9 +23,12 @@ var gui = new dat.GUI();
 gui.add(controls, 'fov', 1, 179).onChange(drawScene);
 gui.add(controls, 'x', -1000, 1000).onChange(drawScene);
 gui.add(controls, 'y', -1000, 1000).onChange(drawScene);
-gui.add(controls, 'z', -10000, -2).onChange(drawScene);
+gui.add(controls, 'z', -3000, 0).listen().onChange(drawScene); // Dat gui workaround part 2: Listen
 gui.add(controls, 'pitch', 0, 90).onChange(drawScene);
 gui.add(controls, 'bearing', 0, 360).onChange(drawScene);
+
+controls.z = -1000; // Dat gui workaround part 3: Set negative initial value.
+
 gui.open();
 
 function drawScene() {
